@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;  // 資料驗證套件:https://laravel
 use App\Http\Requests\UpdateCartItem;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 
 class CartItemController extends Controller
 {
@@ -55,9 +56,14 @@ class CartItemController extends Controller
         }
 
         $ValidateData = $Validator->validate();  // 取得驗證後資料
-        // dd($ValidateData);
+        
+        $product = Product::find($ValidateData["product_id"]);
+        if (!$product->checkQuantity($ValidateData['quantity'])){
+            return response($product->title.'數量不足', 400);
+        }
+
         $cart = Cart::find($ValidateData['cart_id']);
-        $result = $cart->cartItems()->create(['product_id' => $ValidateData['product_id'],
+        $result = $cart->cartItems()->create(['product_id' => $product->id,
                                                 'quantity' => $ValidateData['quantity']]);
         // DB::table('cart_items')->insert();
         return response()->json($result);
@@ -95,9 +101,11 @@ class CartItemController extends Controller
     public function update(UpdateCartItem $request, $id)
     {
         $form = $request->validated();  // 獲取前端傳來表單
-        DB::table('cart_items')->where('id', $id)  // 找到對應id修改
-                                ->update(['quantity' => $form['quantity'],'updated_at' => now()]);
-        return response()->json(true);
+        $item = CartItem::find($id);  // 找到cart_items ID
+        $item->fill(['quantity' => $form['quantity']]);  // fill()填好不儲存，可增加效能
+        // $item->update(['quantity' => $form['quantity']]);  // 也可直接使用update
+        $item->save();
+        return response()->json($item);
     }
 
     /**
@@ -108,7 +116,9 @@ class CartItemController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('cart_items')->where('id', $id)->delete();  // 找到對應id修改-
+        $item = CartItem::find($id);  // 找到對應id修改
+        // 使用CartItem::withTrashed()->find($id)->forceDelete();就會使用sql語法真正刪除
+        $item->delete();
         return response()->json(true);
     }
 }

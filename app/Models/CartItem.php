@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\softDeletes;
 
 class CartItem extends Model
 {
     use HasFactory;
+    use softDeletes;
 
     protected $guarded = [''];  // 所有欄位可更改
     protected $appends = ["current_price"];  // 自製屬性
@@ -18,10 +20,10 @@ class CartItem extends Model
     }
 
     public function product(){
-        return $this->belogsTo(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function cart(){
-        return $this->belogsTo(Cart::class);
+        return $this->belongsTo(Cart::class);
     }
 }
