@@ -1,7 +1,8 @@
-<div>
-    <a href="/">商品列表</a>
-    <a href="/contact-us">聯絡我們</a>
-</div>
+<!--繼承layouts.app模板-->
+@extends('layouts.app')
+<!--會去找layouts.app對應@yield('content')-->
+@section('content')
+
 <h2>商品列表</h2>
 <table>
     <thead>
@@ -18,8 +19,27 @@
             <td>{{ $product->title }}</td>
             <td>{{ $product->content }}</td>
             <td>{{ $product->price }}</td>
-            <td></td>
+            <td><input class="check_product" type="button" value="確認商品數量" data-id="{{ $product->id }}"></td>
         </tr>
         @endforeach
     </tbody>
 </table>
+<script>
+    $('.check_product').on('click', function() {
+        $.ajax({
+                method: 'POST',
+                url: '/products/check-product',
+                data: {
+                    id: $(this).data('id')
+                }
+            })
+            .done(function(response) {
+                if (response) {
+                    alert('商品數量充足');
+                } else {
+                    alert('商品數量不夠');
+                }
+            })
+    })
+</script>
+@endsection

@@ -1,7 +1,7 @@
-<div>
-    <a href="/">商品列表</a>
-    <a href="/contact-us">聯絡我們</a>
-</div>
+<!--繼承layouts.app模板-->
+@extends('layouts.app')
+<!--會去找layouts.app對應@yield('content')-->
+@section('content')
 <h3>聯絡我們</h3>
 <form action="">
     請問你是:<input type="text"><br>
@@ -13,3 +13,4 @@
     </select><br>
     <button>送出</button>
 </form>
+@endsection

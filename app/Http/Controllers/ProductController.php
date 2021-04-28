@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // 資料庫模組
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -19,6 +20,16 @@ class ProductController extends Controller
         return response($data);
     }
 
+    public function checkProduct(Request $request)
+    {
+        $id = $request->all()['id'];
+        $product = Product::find($id);
+        if ($product->quantity > 0) {
+            return response(true);
+        } else {
+            return response(false);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -79,7 +90,7 @@ class ProductController extends Controller
         $data = $this->getData();
         $selectedData = $data->where('id', $id)->first();
         $selectedData = $selectedData->merge(collect($form));
-        
+
         return response()->json($selectedData);
     }
 
@@ -92,13 +103,14 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $data = $this->getData();
-        $data = $data->filter(function ($product) use($id) {
+        $data = $data->filter(function ($product) use ($id) {
             return $product['id'] != $id;
         });
         return response()->json($data->values());
     }
 
-    public function getData(){
+    public function getData()
+    {
         return collect([
             collect([
                 'id' => 0,

@@ -22,8 +22,11 @@ Route::group(['middleware' => 'check.dirty'], function(){
 
 Route::get('/', 'WebController@index');
 Route::get('/contact-us', 'WebController@contactUs');
+Route::post('/products/check-product', 'ProductController@checkProduct');
 Route::resource('products', 'ProductController');
 
+Route::resource('admin/orders', 'Admin\OrderController');
+Route::post('admin/orders/{id}/delivery', 'Admin\OrderController@delivery');
 
 Route::post('signup', 'AuthController@signup');
 Route::post('login', 'AuthController@login');
