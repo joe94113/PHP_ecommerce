@@ -22,6 +22,7 @@ Route::group(['middleware' => 'check.dirty'], function(){
 
 Route::get('/', 'WebController@index');
 Route::get('/contact-us', 'WebController@contactUs');
+Route::post('/read-notification', 'WebController@readNotification');
 Route::post('/products/check-product', 'ProductController@checkProduct');
 Route::resource('products', 'ProductController');
 
