@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // 資料庫模組
+use Illuminate\Support\Facades\Redis;  // 引入redis
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -16,7 +17,9 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         // $data = $this->getData();
-        $data = DB::table('products')->get();
+        // $data = DB::table('products')->get();
+        // https://laravel.com/docs/8.x/redis#introduction
+        $data = json_decode(Redis::get('products'));  // 可優化效能redis
         return response($data);
     }
 
