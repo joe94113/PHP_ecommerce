@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // 資料庫模組
 use Illuminate\Support\Facades\Redis;  // 引入redis
 use App\Models\Product;
+use App\Http\Services\ShortUrlService;
 
 class ProductController extends Controller
 {
@@ -32,6 +33,13 @@ class ProductController extends Controller
         } else {
             return response(false);
         }
+    }
+
+    public function  sharedUrl($id)
+    {
+        $service = new ShortUrlService();
+        $url = $service->makeShortUrl("http://127.0.0.1:8000/products/$id");
+        return response(['url' => $url]);
     }
     /**
      * Show the form for creating a new resource.

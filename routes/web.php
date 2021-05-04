@@ -24,6 +24,7 @@ Route::get('/', 'WebController@index');
 Route::get('/contact-us', 'WebController@contactUs');
 Route::post('/read-notification', 'WebController@readNotification');
 Route::post('/products/check-product', 'ProductController@checkProduct');
+Route::get('/products/{id}/shared-url', 'ProductController@sharedUrl');
 Route::resource('products', 'ProductController');
 
 Route::resource('admin/orders', 'Admin\OrderController');
