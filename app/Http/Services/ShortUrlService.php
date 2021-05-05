@@ -14,21 +14,26 @@ class ShortUrlService
 
     public function makeShortUrl($url)
     {
-        $accesstoken = env('URL_ACCESS_TOKEN');
-        $data = [
-            'url' => $url
-        ];
-        $response = $this->client->request(
-            'POST',
-            "https://api.pics.ee/v1/links/?access_token=$accesstoken",
-            [
-                'header' => ['Content-type' => 'application/json'],
-                'body' => json_encode($data)
-            ]
-        );
+        try {
+            $accesstoken = env('URL_ACCESS_TOKEN');
+            $data = [
+                'url' => $url
+            ];
+            $response = $this->client->request(
+                'POST',
+                "https://api.pics.ee/v1/links/?access_token=$accesstoken",
+                [
+                    'header' => ['Content-type' => 'application/json'],
+                    'body' => json_encode($data)
+                ]
+            );
 
-        $contents = $response->getBody()->getContents();  // 取得較乾淨內容
-        $contents = json_decode($contents);
-        return $contents->data->picseeUrl;
+            $contents = $response->getBody()->getContents();  // 取得較乾淨內容
+            $contents = json_decode($contents);
+            return $contents->data->picseeUrl;
+        } catch (\Throwable $th) {
+            report($th);
+            return $url;
+        }
     }
 }

@@ -40,11 +40,13 @@ class Product extends Model
         return $this->morphMany(Image::class, 'attachable');
     }
 
+
+    // 利用 getImageUrlAttribute ，就可以建立假屬性image_url，呼叫img_url時就會執行此函式
     public function getImageUrlAttribute()
     {
         $images = $this->images;
         if ($images->isNotEmpty()) {
-            return Storage::url($images->last()->path);  // Storage 對儲存空間做操作，建立假屬性image_url
+            return Storage::url($images->last()->path);  // Storage 對儲存空間做操作，
         }
     }
 }
