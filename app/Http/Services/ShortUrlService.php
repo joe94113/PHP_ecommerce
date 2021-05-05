@@ -14,7 +14,7 @@ class ShortUrlService
 
     public function makeShortUrl($url)
     {
-        $accesstoken = '20f07f91f3303b2f66ab6f61698d977d69b83d64';
+        $accesstoken = env('URL_ACCESS_TOKEN');
         $data = [
             'url' => $url
         ];

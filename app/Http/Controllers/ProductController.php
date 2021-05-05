@@ -38,7 +38,7 @@ class ProductController extends Controller
     public function  sharedUrl($id)
     {
         $service = new ShortUrlService();
-        $url = $service->makeShortUrl("http://127.0.0.1:8000/products/$id");
+        $url = $service->makeShortUrl("http://localhost:8000/products/$id");
         return response(['url' => $url]);
     }
     /**

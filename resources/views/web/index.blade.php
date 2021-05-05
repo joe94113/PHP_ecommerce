@@ -19,8 +19,10 @@
             <td>{{ $product->title }}</td>
             <td>{{ $product->content }}</td>
             <td>{{ $product->price }}</td>
-            <td><input class="check_product" type="button" value="確認商品數量" data-id="{{ $product->id }}"></td>
-            <td><input class="check_shared_url" type="button" value="分享商品" data-id="{{ $product->id }}"></td>
+            <td>
+                <input class="check_product" type="button" value="確認商品數量" data-id="{{ $product->id }}">
+                <input class="check_shared_url" type="button" value="分享商品" data-id="{{ $product->id }}">
+            </td>
         </tr>
         @endforeach
     </tbody>
