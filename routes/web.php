@@ -30,7 +30,10 @@ Route::resource('products', 'ProductController');
 Route::resource('admin/orders', 'Admin\OrderController');
 Route::resource('admin/products', 'Admin\ProductController');
 Route::post('admin/products/upload-image', 'Admin\ProductController@uploadImage');
+Route::post('admin/products/excel/import', 'Admin\ProductController@import');
 Route::post('admin/orders/{id}/delivery', 'Admin\OrderController@delivery');
+Route::get('admin/orders/excel/export', 'Admin\OrderController@export');
+Route::get('admin/orders/excel/export-by-shipped', 'Admin\OrderController@exportByShipped');
 Route::post('admin/tools/update-product-price', 'Admin\ToolController@updateProductPrice');
 Route::post('admin/tools/create-product-redis', 'Admin\ToolController@createProductRedis');
 

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Exports\OrderExport;
+use App\Exports\OrderMultipleExport;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Notifications\OrderDelivery;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -38,5 +41,15 @@ class OrderController extends Controller
             $order->user->notify(new OrderDelivery);
             return response(['result' => true]);
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new OrderExport, 'orders.xlsx');
+    }
+
+    public function exportByShipped()
+    {
+        return Excel::download(new OrderMultipleExport, 'orders_by_shipped.xlsx');
     }
 }

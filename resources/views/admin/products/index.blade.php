@@ -5,6 +5,9 @@
 
 <h2>產品列表</h2>
 <span>產品總數: {{ $productCount }}</span>
+<div>
+    <input type="button" class="import" value="匯入Excel">
+</div>
 <!-- 後端執行withErrors，前端會包成$errors，只使用一次的變數 -->
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -51,6 +54,10 @@
     $('.upload_image').click(function() {
         $('#product_id').val($(this).data('id'))
         $('#upload_image').modal()
+    })
+
+    $('.import').click(function() { // 呼叫護出Excel modal
+        $('#import').modal()
     })
 </script>
 @endsection

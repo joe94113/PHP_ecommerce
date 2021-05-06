@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductsImport;
 use App\Models\Product;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -42,5 +44,14 @@ class ProductController extends Controller
             'path' => $path
         ]);
         return redirect()->back();  // 回到前一頁=保持同一頁
+    }
+
+    public function import(Request $request)
+    {
+        // dd($request);
+        $file = $request->file('excel');
+        Excel::import(new ProductsImport, $file);  // 自動解析成一列一列的row
+
+        return redirect()->back();
     }
 }
